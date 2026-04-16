@@ -1,6 +1,6 @@
 package GiorgiaFormicola.U5_W2_D4.exceptions;
 
-import GiorgiaFormicola.U5_W2_D4.payloads.ErrorPayload;
+import GiorgiaFormicola.U5_W2_D4.payloads.ErrorDTO;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
@@ -16,41 +16,49 @@ import java.time.LocalDateTime;
 public class ErrorsHandler {
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorPayload handleBadRequest(BadRequestException ex) {
-        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
+    public ErrorDTO handleBadRequest(BadRequestException ex) {
+        return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorPayload handleBadRequest(NotFoundException ex) {
-        return new ErrorPayload(ex.getMessage(), LocalDateTime.now());
+    public ErrorDTO handleNotFoundException(NotFoundException ex) {
+        return new ErrorDTO(ex.getMessage(), LocalDateTime.now());
     }
 
     //Per queryParam non corrispondente a proprietà
     @ExceptionHandler(PropertyReferenceException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorPayload handleBadRequest(PropertyReferenceException ex) {
-        return new ErrorPayload("Not valid search param.", LocalDateTime.now());
+    public ErrorDTO handlePropertyReferenceException(PropertyReferenceException ex) {
+        return new ErrorDTO("Not valid search param.", LocalDateTime.now());
     }
 
     //Per formato UUID errato
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorPayload handleBadRequest(MethodArgumentTypeMismatchException ex) {
-        return new ErrorPayload("Not valid ID provided.", LocalDateTime.now());
+    public ErrorDTO handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        return new ErrorDTO("Not valid ID provided.", LocalDateTime.now());
     }
 
     //Per valori del Json di cui non riesce a fare il parse
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorPayload handleBadRequest(HttpMessageNotReadableException ex) {
-        return new ErrorPayload("Not valid value provided.", LocalDateTime.now());
+    public ErrorDTO handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return new ErrorDTO("Not valid value provided.", LocalDateTime.now());
     }
 
     //Per violazione length varchar
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorPayload handleBadRequest(DataIntegrityViolationException ex) {
-        return new ErrorPayload("Not valid value provide", LocalDateTime.now());
+    public ErrorDTO handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        return new ErrorDTO("Not valid value provide", LocalDateTime.now());
+    }
+
+    //Per tutte le altre
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorDTO handleGenericException(Exception ex) {
+        ex.printStackTrace();
+        return new ErrorDTO("Oops, a server error occurred!", LocalDateTime.now());
     }
 }
