@@ -8,6 +8,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 
@@ -38,12 +39,12 @@ public class ErrorsHandler {
         return new ErrorDTO("Not valid search param.", LocalDateTime.now());
     }
 
-    //Per formato UUID errato
-    /*@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    //Per formato UUID errato nella request
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         return new ErrorDTO("Not valid ID provided.", LocalDateTime.now());
-    }*/
+    }
 
     //Per valori del Json di cui non riesce a fare il parse (tipo ID o DATA)
     @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -60,10 +61,10 @@ public class ErrorsHandler {
     }*/
 
     //Per tutte le altre
-    /*@ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorDTO handleGenericException(Exception ex) {
         ex.printStackTrace();
         return new ErrorDTO("Oops, a server error occurred!", LocalDateTime.now());
-    }*/
+    }
 }
