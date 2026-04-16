@@ -60,7 +60,7 @@ public class AuthorsController {
         this.authorsService.findByIdAndDelete(authorId);
     }
 
-    @PatchMapping("//{authorId}/avatar")
+    @PatchMapping("/{authorId}/avatar")
     public Author getAuthorByIdAndUploadAvatar(@PathVariable UUID authorId, @RequestParam("avatar_picture") MultipartFile file) {
         return this.authorsService.findByIdAndUploadAvatar(authorId, file);
     }
