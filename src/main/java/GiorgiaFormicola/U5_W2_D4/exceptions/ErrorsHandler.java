@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import java.time.LocalDateTime;
 
@@ -53,12 +54,19 @@ public class ErrorsHandler {
         return new ErrorDTO("Not valid value provided.", LocalDateTime.now());
     }
 
+
     //Per violazione length varchar
     /*@ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         return new ErrorDTO("Not valid value provided", LocalDateTime.now());
     }*/
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorDTO handleMaxUploadSizeExceededException(MaxUploadSizeExceededException ex) {
+        return new ErrorDTO("The uploaded file can't be bigger than 10 MB", LocalDateTime.now());
+    }
 
     //Per tutte le altre
     @ExceptionHandler(Exception.class)

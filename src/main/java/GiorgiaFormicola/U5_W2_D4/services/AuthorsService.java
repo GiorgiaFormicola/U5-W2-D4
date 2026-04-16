@@ -65,6 +65,7 @@ public class AuthorsService {
     }
 
     public void findByIdAndDelete(UUID authorId) {
+        //Cancella prima tutti i posti annessi
         Author found = this.findById(authorId);
         this.authorsRepository.delete(found);
     }
