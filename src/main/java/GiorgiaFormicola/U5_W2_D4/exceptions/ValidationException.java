@@ -6,7 +6,7 @@ import java.util.List;
 
 @Getter
 public class ValidationException extends RuntimeException {
-    private final List<String> errorsList;
+    private List<String> errorsList;
 
     public ValidationException(List<String> errorsList) {
         super("Errors in the validation process");

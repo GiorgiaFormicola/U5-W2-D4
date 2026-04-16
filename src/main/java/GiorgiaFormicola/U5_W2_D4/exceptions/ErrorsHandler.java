@@ -2,14 +2,12 @@ package GiorgiaFormicola.U5_W2_D4.exceptions;
 
 import GiorgiaFormicola.U5_W2_D4.payloads.ErrorDTO;
 import GiorgiaFormicola.U5_W2_D4.payloads.ErrorsListDTO;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.core.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.time.LocalDateTime;
 
@@ -41,13 +39,13 @@ public class ErrorsHandler {
     }
 
     //Per formato UUID errato
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    /*@ExceptionHandler(MethodArgumentTypeMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         return new ErrorDTO("Not valid ID provided.", LocalDateTime.now());
-    }
+    }*/
 
-    //Per valori del Json di cui non riesce a fare il parse
+    //Per valori del Json di cui non riesce a fare il parse (tipo ID o DATA)
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
@@ -55,11 +53,11 @@ public class ErrorsHandler {
     }
 
     //Per violazione length varchar
-    @ExceptionHandler(DataIntegrityViolationException.class)
+    /*@ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorDTO handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
         return new ErrorDTO("Not valid value provided", LocalDateTime.now());
-    }
+    }*/
 
     //Per tutte le altre
     /*@ExceptionHandler(Exception.class)
