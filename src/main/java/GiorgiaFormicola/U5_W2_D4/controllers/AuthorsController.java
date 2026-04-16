@@ -1,7 +1,7 @@
 package GiorgiaFormicola.U5_W2_D4.controllers;
 
 import GiorgiaFormicola.U5_W2_D4.entities.Author;
-import GiorgiaFormicola.U5_W2_D4.payloads.AuthorPayload;
+import GiorgiaFormicola.U5_W2_D4.payloads.AuthorDTO;
 import GiorgiaFormicola.U5_W2_D4.services.AuthorsService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +18,7 @@ public class AuthorsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Author saveAuthor(@RequestBody AuthorPayload body) {
+    public Author saveAuthor(@RequestBody AuthorDTO body) {
         return this.authorsService.save(body);
     }
 
@@ -37,7 +37,7 @@ public class AuthorsController {
     }
 
     @PutMapping("/{authorId}")
-    public Author getAuthorByIdAndUpdate(@PathVariable UUID authorId, @RequestBody AuthorPayload body) {
+    public Author getAuthorByIdAndUpdate(@PathVariable UUID authorId, @RequestBody AuthorDTO body) {
         return this.authorsService.findByIdAndUpdate(authorId, body);
     }
 
